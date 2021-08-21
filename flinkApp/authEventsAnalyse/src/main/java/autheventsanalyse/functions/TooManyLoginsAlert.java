@@ -1,4 +1,4 @@
-package autheventsanalyse.jobs.toomanylogins;
+package autheventsanalyse.functions;
 
 public class TooManyLoginsAlert {
     private String username;

@@ -2,6 +2,7 @@ package autheventsanalyse.entity;
 
 public final class AuthenticationEvent {
     private String username;
+    private String ip;
     private boolean successful;
     private long timestamp;
 
@@ -12,8 +13,9 @@ public final class AuthenticationEvent {
         this.username = username;
     }
 
-    public AuthenticationEvent(String username, boolean successful, long timestamp) {
+    public AuthenticationEvent(String username, String ip, boolean successful, long timestamp) {
         this.username = username;
+        this.ip = ip;
         this.successful = successful;
         this.timestamp = timestamp;
     }
@@ -40,5 +42,13 @@ public final class AuthenticationEvent {
 
     public void setSuccessful(boolean successful) {
         this.successful = successful;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

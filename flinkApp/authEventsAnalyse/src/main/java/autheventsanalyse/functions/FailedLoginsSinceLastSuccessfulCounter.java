@@ -1,8 +1,6 @@
-package autheventsanalyse.jobs.toomanylogins;
+package autheventsanalyse.functions;
 
-import autheventsanalyse.entity.AuthenticationEvent;
-import autheventsanalyse.sink.LogSink;
-import com.esotericsoftware.minlog.Log;
+import autheventsanalyse.entity.EnrichedAuthenticationEvent;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -17,11 +15,12 @@ import org.slf4j.LoggerFactory;
 *  a simple member variable would not be fault-tolerant and all its information be lost in case of a failure.
 *  A keyed state of an operator is automatically scoped to the key of the record that is currently processed.
 *  Flink maintains an independent state for each user (defined by .keyBy(AuthenticationEvent::getUsername)).
+*  https://ci.apache.org/projects/flink/flink-docs-release-1.13/docs/dev/datastream/fault-tolerance/state/
  * */
-public class TooManyLoginsDetector extends KeyedProcessFunction<String, AuthenticationEvent, TooManyLoginsAlert> {
+public class FailedLoginsSinceLastSuccessfulCounter extends KeyedProcessFunction<String, EnrichedAuthenticationEvent, EnrichedAuthenticationEvent> {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = LoggerFactory.getLogger(TooManyLoginsDetector.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FailedLoginsSinceLastSuccessfulCounter.class);
 
     private transient ValueState<Long> countOfFailedLoginsState;
 
@@ -35,9 +34,9 @@ public class TooManyLoginsDetector extends KeyedProcessFunction<String, Authenti
 
     @Override
     public void processElement(
-            AuthenticationEvent authEvent,
+            EnrichedAuthenticationEvent authEvent,
             Context context,
-            Collector<TooManyLoginsAlert> collector) throws Exception {
+            Collector<EnrichedAuthenticationEvent> collector) throws Exception {
 
         if(authEvent.isSuccessful()){
             countOfFailedLoginsState.clear();
@@ -48,13 +47,9 @@ public class TooManyLoginsDetector extends KeyedProcessFunction<String, Authenti
             }
             value = value+1;
             countOfFailedLoginsState.update(value);
-
-            if(value > 7){
-                TooManyLoginsAlert alert = new TooManyLoginsAlert(authEvent.getUsername(), value);
-                collector.collect(alert);
-            }
+            authEvent.setFailedLoginsSinceLastSuccessful(value);
         }
-
+        collector.collect(authEvent);
         LOG.debug("AuthEvent processed; User=" + authEvent.getUsername() + " AuthSuccess=" + authEvent.isSuccessful());
     }
 }

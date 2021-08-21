@@ -18,11 +18,9 @@
 
 package autheventsanalyse;
 
-import autheventsanalyse.jobs.toomanylogins.TooManyLoginsJob;
-
 public class JobStarter {
 
 	public static void main(String[] args) throws Exception {
-		TooManyLoginsJob.execute();
+		EnrichAuthenticationEventJob.execute();
 	}
 }

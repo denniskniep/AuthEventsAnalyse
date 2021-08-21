@@ -12,7 +12,7 @@ import java.util.List;
 final class AuthenticationEventIterator implements Iterator<AuthenticationEvent>, Serializable {
     private static final long serialVersionUID = 1L;
     private static final Timestamp INITIAL_TIMESTAMP = Timestamp.valueOf("2019-01-01 00:00:00");
-    private static final long SIX_MINUTES = 360000L;
+    private static final int SIX_MINUTES = 360000;
     private final boolean bounded;
     private int index = 0;
     private long timestamp;
@@ -54,10 +54,16 @@ final class AuthenticationEventIterator implements Iterator<AuthenticationEvent>
         }
 
         AuthenticationEvent authEvent = data.get(this.index);
+
+        this.timestamp += RandomUtils.nextInt(100, SIX_MINUTES);
         authEvent.setTimestamp(this.timestamp);
+
         boolean isSuccessful = RandomUtils.nextInt(0,2) == 1;
         authEvent.setSuccessful(isSuccessful);
-        this.timestamp += SIX_MINUTES;
+
+        String ip = RandomUtils.nextInt(0,255) + "." + RandomUtils.nextInt(0,255) + "." + RandomUtils.nextInt(0,255) + "." +  RandomUtils.nextInt(0,255);
+        authEvent.setIp(ip);
+
         return authEvent;
     }
 }

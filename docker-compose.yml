@@ -6,11 +6,14 @@ services:
     image: flink:1.13.0-scala_2.11
     ports:
       - "8081:8081"
-    command: jobmanager
+    command: standalone-job --job-classname autheventsanalyse.JobStarter
+    volumes:
+      - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
     environment:
       - |
         FLINK_PROPERTIES=
-        jobmanager.rpc.address: jobmanager        
+        jobmanager.rpc.address: jobmanager
+        parallelism.default: 2        
 
   taskmanager:
     image: flink:1.13.0-scala_2.11
@@ -18,8 +21,11 @@ services:
       - jobmanager
     command: taskmanager
     scale: 1
+    volumes:
+      - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        taskmanager.numberOfTaskSlots: 2        
+        taskmanager.numberOfTaskSlots: 2
+        parallelism.default: 2        
