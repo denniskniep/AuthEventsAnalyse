@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  jupyter:
+    build: ./
+    volumes:
+      - ./workspace:/home/jovyan/workspace
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - "8888:8888"

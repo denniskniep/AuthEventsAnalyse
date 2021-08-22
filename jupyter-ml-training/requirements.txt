@@ -1,0 +1,6 @@
+Faker
+qgrid
+geopandas
+chartify
+plotly
+pivottablejs

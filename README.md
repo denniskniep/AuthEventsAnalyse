@@ -51,3 +51,10 @@ Kafka Monitoring:
 https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/#prometheus
 
 
+## ML Training with JUPYTER
+```
+cd jupyter-ml-training
+sudo docker-compose up --build
+```
+
+To open the Ui look into the console output and open the url with the token
