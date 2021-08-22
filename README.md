@@ -5,6 +5,9 @@
 sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml -f docker-compose.storage.yml up --build
 ```
 
+## Pipleline
+![pipeline](EnrichAuthenticationEventPipline.png "pipeline")
+
 ## Flink
 
 ### Cluster
