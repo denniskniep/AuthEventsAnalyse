@@ -1,9 +1,19 @@
 package autheventsanalyse.entity;
 
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class AuthenticationEvent {
+
+    @JsonProperty("Username")
     private String username;
+
+    @JsonProperty("Ip")
     private String ip;
+
+    @JsonProperty("Successful")
     private boolean successful;
+
+    @JsonProperty("Timestamp")
     private long timestamp;
 
     public AuthenticationEvent() {

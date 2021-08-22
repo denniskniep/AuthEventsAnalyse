@@ -2,7 +2,7 @@
 
 ## Quickstart
 ```
-sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml up
+sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml up --build
 ```
 
 ## Flink
@@ -10,12 +10,12 @@ sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml up
 ### Cluster
 https://ci.apache.org/projects/flink/flink-docs-stable/docs/deployment/resource-providers/standalone/docker/#flink-with-docker-compose
 
-Flink runs as Application Cluster (see docker-compose.yaml)
+Flink runs as Application Cluster
 
 Ui: http://localhost:8081 
 
 ### Application
-Create Flink application skeleton
+Created Flink application skeleton with
 ```
 mvn archetype:generate \
     -DarchetypeGroupId=org.apache.flink \
@@ -33,6 +33,9 @@ https://docs.confluent.io/platform/current/kafka/introduction.html
 https://docs.confluent.io/platform/current/quickstart/ce-docker-quickstart.html
 
 Ui: http://localhost:9021
+
+Debugging with KafkaCat
+https://docs.confluent.io/platform/current/app-development/kafkacat-usage.html
 
 
 ## Monitoring
