@@ -2,7 +2,7 @@
 
 ## Quickstart
 ```
-sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml up --build
+sudo docker-compose -f docker-compose.flink.yml -f docker-compose.kafka.yml -f docker-compose.storage.yml up --build
 ```
 
 ## Flink

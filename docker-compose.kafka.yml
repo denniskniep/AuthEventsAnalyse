@@ -47,6 +47,12 @@ services:
 
   # ToDo: https://hub.docker.com/r/sheepkiller/kafka-manager
 
+  connect-standalone:
+    build:
+      context: ./docker/kafka-connect/    
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka-connect
+
 volumes:
   prometheus-data:
   grafana-data:
