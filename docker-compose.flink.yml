@@ -14,7 +14,7 @@ services:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
-        parallelism.default: 2        
+        parallelism.default: 2
 
   taskmanager:
     build:
@@ -30,4 +30,12 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
-        parallelism.default: 2        
+        parallelism.default: 2
+
+  ml-api:
+    build:
+      context: ./python-ml-api/
+    volumes:
+      - ./jupyter-ml-training/workspace/model/RiskyAuthenticationEventPredictionWithRandomForestClassifier.joblib:/program/RiskyAuthenticationEventPredictionWithRandomForestClassifier.joblib
+    ports:
+      - "5000:5000"

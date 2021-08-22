@@ -1,0 +1,5 @@
+Flask
+Flask-RESTful
+scikit-learn
+pandas
+numpy
