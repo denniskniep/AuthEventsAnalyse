@@ -3,12 +3,13 @@ services:
   # https://ci.apache.org/projects/flink/flink-docs-stable/docs/deployment/resource-providers/standalone/docker/#flink-with-docker-compose
 
   jobmanager:
-    image: flink:1.13.0-scala_2.11
+    build:
+      context: ./flinkApp/
     ports:
       - "8081:8081"
     command: standalone-job --job-classname autheventsanalyse.JobStarter
-    volumes:
-      - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
+    #volumes:
+    #  - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
     environment:
       - |
         FLINK_PROPERTIES=
@@ -16,13 +17,14 @@ services:
         parallelism.default: 2        
 
   taskmanager:
-    image: flink:1.13.0-scala_2.11
+    build:
+      context: ./flinkApp/
     depends_on:
       - jobmanager
     command: taskmanager
     scale: 1
-    volumes:
-      - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
+    #volumes:
+    #  - ./flinkApp/authEventsAnalyse/target/authEventsAnalyse-0.1.jar:/opt/flink/usrlib/authEventsAnalyse-0.1.jar
     environment:
       - |
         FLINK_PROPERTIES=
