@@ -58,3 +58,4 @@ sudo docker-compose up --build
 ```
 
 To open the Ui look into the console output and open the url with the token
+

@@ -39,3 +39,38 @@ services:
       - ./jupyter-ml-training/workspace/model/RiskyAuthenticationEventPredictionWithRandomForestClassifier.joblib:/program/RiskyAuthenticationEventPredictionWithRandomForestClassifier.joblib
     ports:
       - "5000:5000"
+
+  flink-sql-api:
+    image: romainr/flink-sql-api:1.11.1
+    container_name: flink-sql-api
+    ports:
+      - "8083:8083"
+    depends_on:
+      - jobmanager
+
+  hue:
+    image: romainr/hue:demo-streams-v3
+    hostname: hue
+    container_name: hue
+    ports:
+      - "8888:8888"
+    depends_on:
+      - hue-database
+    command: ["./wait-for-it.sh", "hue-database:3306", "--", "./startup.sh"]
+
+  hue-database:
+    image: mysql:5.7
+    container_name: hue-database
+    ports:
+      - "33061:3306"
+    volumes:
+      - hue-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: hue
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: hue
+
+volumes:
+  hue-data:
